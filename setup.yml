@@ -1,8 +1,8 @@
----
+
 
 - name: configure raspberry pi as console server
   become: true
-  hosts: console_server
+  hosts: localhost
   gather_facts: false
   vars_files:
     - vars/main.yml

@@ -26,3 +26,4 @@ Run ansible
 ansible-playbook setup.yml
 ```
 Note: you may need to add -k, etc depending on if your ssh key is setup on the pi, sudo is setup, etc.
+# T301-2020-JKennedy-Assignment-of-Doom
