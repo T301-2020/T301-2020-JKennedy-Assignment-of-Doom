@@ -47,3 +47,7 @@
       service:
         name: ser2net
         state: restarted
+
+
+    - name: Run a script with arguments 
+      script: /root/raspberrypi-console-server/router-script
