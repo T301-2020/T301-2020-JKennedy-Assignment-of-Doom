@@ -1,0 +1,48 @@
+#!/usr/bin/expect
+
+
+set force_conservative 1  ;# set to 1 to force conservative mode even if
+                          ;# script wasn't run conservatively originally
+if {$force_conservative} {
+        set send_slow {1 .1}
+        proc send {ignore arg} {
+                sleep .1
+                exp_send -s -- $arg
+        }
+}
+
+
+set timeout -1
+log_user 0
+log_file -a "/tmp/r1.log"
+#spawn $env(SHELL)
+#match_max 100000
+#send -- "telnet 10.150.10.240\r"
+spawn telnet 10.150.10.240
+expect "*Password: "
+send -- "password\r"
+expect -exact "\r
+T301-CiscoRouter#"
+send -- "conf t\r"
+expect -exact "conf t\r
+Enter configuration commands, one per line.  End with CNTL/Z.\r
+T301-CiscoRouter(config)#"
+send -- "int f0/1\r"
+expect -exact "int f0/1\r
+T301-CiscoRouter(config-if)#"
+send -- "ip address 10.150.200.1 255.255.255.0\r"
+expect -exact "ip address 10.150.200.1 255.255.255.0\r
+T301-CiscoRouter(config-if)#"
+send -- "no shut\r"
+expect -exact "no shut\r
+T301-CiscoRouter(config-if)#"
+send -- "end\r"
+expect -exact "end\r
+T301-CiscoRouter#"
+send -- "exit\r"
+expect -exact "exit\r
+Connection closed by foreign host.\r
+* "
+#expect eof
+
+
